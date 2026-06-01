@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorpresita</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:black;
+    overflow:hidden;
+    font-family:Arial, sans-serif;
+}
+
+/* PANTALLA INICIAL */
+
+#inicio{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:black;
+    z-index:100;
+}
+
+#boton{
+    font-size:2rem;
+    padding:20px 40px;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    background:white;
+    color:black;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+#boton:hover{
+    transform:scale(1.1);
+}
+
+/* VIDEO */
+
+video{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    object-fit:contain;
+}
+
+/* TEXTO */
+
+h1{
+    position:fixed;
+    top:30px;
+    left:0;
+    width:100%;
+
+    color:white;
+    font-size:2.5rem;
+    font-weight:bold;
+    text-align:center;
+
+    text-shadow:
+        0 0 10px #ff69b4,
+        0 0 20px #ff69b4,
+        0 0 40px #ff69b4;
+
+    z-index:20;
+
+    animation:latidoTexto 1s infinite;
+}
+
+@keyframes latidoTexto{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.08);}
+    100%{transform:scale(1);}
+}
+
+/* CONFETI */
+
+#confeti{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:30;
+}
+
+.pieza{
+    position:absolute;
+    top:-20px;
+    width:12px;
+    height:12px;
+    animation:caer linear forwards;
+}
+
+.pieza:nth-child(4n){
+    background:#ff69b4;
+}
+
+.pieza:nth-child(4n+1){
+    background:#ffb6c1;
+}
+
+.pieza:nth-child(4n+2){
+    background:#ffffff;
+}
+
+.pieza:nth-child(4n+3){
+    background:#ff1493;
+}
+
+@keyframes caer{
+    0%{
+        transform:translateY(0) rotate(0deg);
+        opacity:1;
+    }
+
+    100%{
+        transform:translateY(120vh) rotate(720deg);
+        opacity:0;
+    }
+}
+
+/* MEME */
+
+#meme{
+    display:none;
+
+    position:fixed;
+    inset:0;
+
+    width:100vw;
+    height:100vh;
+
+    object-fit:contain;
+
+    background:black;
+
+    z-index:500;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- PANTALLA NEGRA -->
+
+<div id="inicio">
+    <button id="boton">Ábreme</button>
+</div>
+
+<!-- MENSAJE -->
+
+<h1>TE QUIEROOO MUCHOOO 💕💕💕</h1>
+
+<!-- VIDEO -->
+
+<video id="video" playsinline>
+    <source src="labububailarin.mp4" type="video/mp4">
+</video>
+
+<!-- MEME -->
+
+<img id="meme" src="meme.jpg" alt="meme">
+
+<!-- CONFETI -->
+
+<div id="confeti"></div>
+
+<script>
+
+document.getElementById("boton").addEventListener("click", function() {
+
+    const video = document.getElementById("video");
+
+    video.play();
+
+    document.getElementById("inicio").style.display = "none";
+
+    lanzarConfeti();
+});
+
+function lanzarConfeti(){
+
+    const contenedor = document.getElementById("confeti");
+
+    for(let i = 0; i < 100; i++){
+
+        let pieza = document.createElement("div");
+
+        pieza.classList.add("pieza");
+
+        pieza.style.left = Math.random() * 100 + "vw";
+
+        pieza.style.animationDuration =
+            (Math.random() * 3 + 2) + "s";
+
+        contenedor.appendChild(pieza);
+
+        setTimeout(() => {
+            pieza.remove();
+        }, 5000);
+    }
+}
+
+/* CUANDO TERMINA EL VIDEO */
+
+const video = document.getElementById("video");
+const meme = document.getElementById("meme");
+
+video.addEventListener("ended", () => {
+
+    document.body.style.background = "black";
+
+    video.style.display = "none";
+
+    document.querySelector("h1").style.display = "none";
+
+    setTimeout(() => {
+
+        meme.style.display = "block";
+
+    }, 1000);
+
+});
+
+</script>
+
+</body>
+</html>
